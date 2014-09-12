@@ -4,7 +4,7 @@ mkdir source-to-encode
 mkdir source-post-encode
 mkdir encoded
 
-if command -v ruby >/dev/null; then
+if command -v brew >/dev/null; then
 	echo "you already have brew"	
 else
 	ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
