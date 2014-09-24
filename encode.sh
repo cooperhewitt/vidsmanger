@@ -25,8 +25,8 @@ do
 	ffmpeg -y -i $f -codec:v libx264 -preset slow -b:v 6000k -vf scale=-1:1080 -threads 0 -pass 2 -codec:a libfaac -b:a 128k -f mp4 "${ENCODED_DIR}${base_filename}_1080.mp4"
 
 	echo "making 720 mp4..."
-	ffmpeg -y -i $f -codec:v libx264 -preset slow -b:v 6000k -vf scale=-1:1080 -threads 0 -pass 1 -an -f mp4 /dev/null
-	ffmpeg -y -i $f -codec:v libx264 -preset slow -b:v 6000k -vf scale=-1:1080 -threads 0 -pass 2 -codec:a libfaac -b:a 128k -f mp4 "${ENCODED_DIR}${base_filename}_720.mp4"
+	ffmpeg -y -i $f -codec:v libx264 -preset slow -b:v 6000k -vf scale=-1:720 -threads 0 -pass 1 -an -f mp4 /dev/null
+	ffmpeg -y -i $f -codec:v libx264 -preset slow -b:v 6000k -vf scale=-1:720 -threads 0 -pass 2 -codec:a libfaac -b:a 128k -f mp4 "${ENCODED_DIR}${base_filename}_720.mp4"
 
 	echo "finished encoding $base_file"
 	mv $f "${POST_ENCODE_DIR}${base_file}"
