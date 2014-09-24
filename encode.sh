@@ -14,15 +14,15 @@ do
 
 	echo "begin encoding $base_file"
 	
-	echo "making ogg..."
-	ffmpeg -i $f -acodec libvorbis -ac 2 -ab 96k -ar 44100 -vb 800k -vf scale=720:-1 "${ENCODED_DIR}${base_filename}.ogv"
+	# echo "making ogg..."
+	# ffmpeg -i $f -acodec libvorbis -ac 2 -ab 96k -ar 44100 -vb 6000k -vf scale=1920:-1 "${ENCODED_DIR}${base_filename}.ogv"
 
-	echo "making webm..."
-	ffmpeg -i $f -acodec libvorbis -ac 2 -ab 96k -ar 44100 -vb 800k -vf scale=720:-1 "${ENCODED_DIR}${base_filename}.webm"
+	# echo "making webm..."
+	# ffmpeg -i $f -acodec libvorbis -ac 2 -ab 96k -ar 44100 -vb 6000k -vf scale=1920:-1 "${ENCODED_DIR}${base_filename}.webm"
 	
 	echo "making mp4..."
-	ffmpeg -y -i $f -codec:v libx264 -profile:v high -preset slow -b:v 800k -maxrate 500k -bufsize 1000k -vf scale=720:-2 -threads 0 -pass 1 -an -f mp4 /dev/null
-	ffmpeg -y -i $f -codec:v libx264 -profile:v high -preset slow -b:v 800k -maxrate 500k -bufsize 1000k -vf scale=720:-2 -threads 0 -pass 2 -codec:a libfaac -b:a 128k -f mp4 "${ENCODED_DIR}${base_filename}.mp4"
+	ffmpeg -y -i $f -codec:v libx264 -preset slow -b:v 6000k -vf scale=1920:-2 -threads 0 -pass 1 -an -f mp4 /dev/null
+	ffmpeg -y -i $f -codec:v libx264 -preset slow -b:v 6000k -vf scale=1920:-2 -threads 0 -pass 2 -codec:a libfaac -b:a 128k -f mp4 "${ENCODED_DIR}${base_filename}.mp4"
 
 	echo "finished encoding $base_file"
 	mv $f "${POST_ENCODE_DIR}${base_file}"
