@@ -10,11 +10,11 @@ ENCODED_DIR='./encoded/'
 
 WIDTH_L=1920
 HEIGHT_L=1080
-FILTER_L="-filter:v \"scale=iw*min(${WIDTH_L}/iw\,${HEIGHT_L}/ih):ih*min(${WIDTH_L}/iw\,${HEIGHT_L}/ih), pad=${WIDTH_L}:${HEIGHT_L}:(${WIDTH_L}-iw*min(${WIDTH_L}/iw\,${HEIGHT_L}/ih))/2:(${HEIGHT_L}-ih*min(${WIDHT_L}/iw\,${HEIGHT_L}/ih))/2\""
+FILTER_L="-filter:v \"scale=iw*min(${WIDTH_L}/iw\\,${HEIGHT_L}/ih):ih*min(${WIDTH_L}/iw\\,${HEIGHT_L}/ih), pad=${WIDTH_L}:${HEIGHT_L}:(${WIDTH_L}-iw*min(${WIDTH_L}/iw\\,${HEIGHT_L}/ih))/2:(${HEIGHT_L}-ih*min(${WIDHT_L}/iw\\,${HEIGHT_L}/ih))/2\""
 
 WIDTH_M=1280
 HEIGHT_M=720
-FILTER_L="-filter:v \"scale=iw*min(${WIDTH_M}/iw\,${HEIGHT_M}/ih):ih*min(${WIDTH_M}/iw\,${HEIGHT_M}/ih), pad=${WIDTH_M}:${HEIGHT_M}:(${WIDTH_M}-iw*min(${WIDTH_M}/iw\,${HEIGHT_M}/ih))/2:(${HEIGHT_M}-ih*min(${WIDHT_M}/iw\,${HEIGHT_M}/ih))/2\""
+FILTER_M="-filter:v \"scale=iw*min(${WIDTH_M}/iw\\,${HEIGHT_M}/ih):ih*min(${WIDTH_M}/iw\\,${HEIGHT_M}/ih), pad=${WIDTH_M}:${HEIGHT_M}:(${WIDTH_M}-iw*min(${WIDTH_M}/iw\\,${HEIGHT_M}/ih))/2:(${HEIGHT_M}-ih*min(${WIDHT_M}/iw\\,${HEIGHT_M}/ih))/2\""
 
 for f in $TO_ENCODE
 do
