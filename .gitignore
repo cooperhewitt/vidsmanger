@@ -2,4 +2,6 @@
 *.mov
 *.webm
 *.ogv
+*.srt
+*.ass
 .DS_Store
