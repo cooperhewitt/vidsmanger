@@ -1,9 +1,9 @@
 #!/bin/sh
 
-mkdir source-to-encode
-mkdir source-post-encode
-mkdir encoded
-mkdir subtitles
+mkdir ../source-to-encode
+mkdir ../source-post-encode
+mkdir ../encoded
+mkdir ../subtitles
 
 if command -v brew >/dev/null; then
 	echo "you already have brew"	
