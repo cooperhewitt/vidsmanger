@@ -2,6 +2,19 @@
 
 # brew install ffmpeg --with-vpx --with-vorbis --with-libvorbis --with-vpx --with-vorbis --with-theora --with-libogg --with-libvorbis --with-gpl --with-version3 --with-nonfree --with-postproc --with-libaacplus --with-libass --with-libcelt --with-libfaac --with-libfdk-aac --with-libfreetype --with-libmp3lame --with-libopencore-amrnb --with-libopencore-amrwb --with-libopenjpeg --with-openssl --with-libopus --with-libschroedinger --with-libspeex --with-libtheora --with-libvo-aacenc --with-libvorbis --with-libvpx --with-libx264 --with-libxvid
 
+BURN_SUBS=false
+
+while getopts ":s" opt; do
+	case $opt in
+		s)
+			BURN_SUBS=true
+			;;
+		\?)
+			echo "Invalid flag: -$OPTARG" >&2
+			;;
+	esac
+done
+
 TO_ENCODE='./source-to-encode/*'
 
 SUBTITLE_DIR='./subtitles/'
@@ -46,30 +59,32 @@ do
 	ffmpeg -y -i $f -codec:v libx264 -preset slow -b:v 6000k "${FILTER_M[@]}" -threads 0 -pass 2 -codec:a libfaac -b:a 128k -f mp4 "${ENCODED_DIR}${base_filename}_720.mp4"
 
 	# subtitles
-	if [ ! -f ${SUBTITLE_DIR}${base_filename}.srt ]; then
-		# no subtitle file. duplicate unsubbed file and add _s for consistency
-		cp "${ENCODED_DIR}${base_filename}_720.mp4" "${ENCODED_DIR}${base_filename}_720_s.mp4"
-		cp "${ENCODED_DIR}${base_filename}_1080.mp4" "${ENCODED_DIR}${base_filename}_1080_s.mp4"
-	else
-		# subtitle file exists. burn in subs.
-		
-		# convert .srt to .ass, try not to laugh
-		ffmpeg -i $SUBTITLE_DIR$base_filename.srt $SUBTITLE_DIR$base_filename.ass
-		cp $SUBTITLE_DIR$base_filename.ass $SUBTITLE_DIR${base_filename}_L.ass
-		cp $SUBTITLE_DIR$base_filename.ass $SUBTITLE_DIR${base_filename}_M.ass
-		rm $SUBTITLE_DIR$base_filename.ass
+	if [ "$BURN_SUBS" = true ]; then
+		if [ ! -f ${SUBTITLE_DIR}${base_filename}.srt ]; then
+			# no subtitle file. duplicate unsubbed file and add _s for consistency
+			cp "${ENCODED_DIR}${base_filename}_720.mp4" "${ENCODED_DIR}${base_filename}_720_s.mp4"
+			cp "${ENCODED_DIR}${base_filename}_1080.mp4" "${ENCODED_DIR}${base_filename}_1080_s.mp4"
+		else
+			# subtitle file exists. burn in subs.
+			
+			# convert .srt to .ass, try not to laugh
+			ffmpeg -i $SUBTITLE_DIR$base_filename.srt $SUBTITLE_DIR$base_filename.ass
+			cp $SUBTITLE_DIR$base_filename.ass $SUBTITLE_DIR${base_filename}_L.ass
+			cp $SUBTITLE_DIR$base_filename.ass $SUBTITLE_DIR${base_filename}_M.ass
+			rm $SUBTITLE_DIR$base_filename.ass
 
-		# run modifications on .ass files (change font/size, set dimensions)
-		./bin/add-subtitle-options.py $SUBTITLE_DIR${base_filename}_L.ass $WIDTH_L $HEIGHT_L
-		./bin/add-subtitle-options.py $SUBTITLE_DIR${base_filename}_M.ass $WIDTH_M $HEIGHT_M
+			# run modifications on .ass files (change font/size, set dimensions)
+			./bin/add-subtitle-options.py $SUBTITLE_DIR${base_filename}_L.ass $WIDTH_L $HEIGHT_L
+			./bin/add-subtitle-options.py $SUBTITLE_DIR${base_filename}_M.ass $WIDTH_M $HEIGHT_M
 
-		echo "making 1080 mp4 subtitled..."
-		ffmpeg -y -i $f -codec:v libx264 -preset slow -b:v 6000k "${FILTER_L_SUBS[@]}" -threads 0 -pass 1 -an -f mp4 /dev/null
-		ffmpeg -y -i $f -codec:v libx264 -preset slow -b:v 6000k "${FILTER_L_SUBS[@]}" -threads 0 -pass 2 -codec:a libfaac -b:a 128k -f mp4 "${ENCODED_DIR}${base_filename}_1080_s.mp4"
+			echo "making 1080 mp4 subtitled..."
+			ffmpeg -y -i $f -codec:v libx264 -preset slow -b:v 6000k "${FILTER_L_SUBS[@]}" -threads 0 -pass 1 -an -f mp4 /dev/null
+			ffmpeg -y -i $f -codec:v libx264 -preset slow -b:v 6000k "${FILTER_L_SUBS[@]}" -threads 0 -pass 2 -codec:a libfaac -b:a 128k -f mp4 "${ENCODED_DIR}${base_filename}_1080_s.mp4"
 
-		echo "making 720 mp4 subtitled..."
-		ffmpeg -y -i $f -codec:v libx264 -preset slow -b:v 6000k "${FILTER_M_SUBS[@]}" -threads 0 -pass 1 -an -f mp4 /dev/null
-		ffmpeg -y -i $f -codec:v libx264 -preset slow -b:v 6000k "${FILTER_M_SUBS[@]}" -threads 0 -pass 2 -codec:a libfaac -b:a 128k -f mp4 "${ENCODED_DIR}${base_filename}_720_s.mp4"
+			echo "making 720 mp4 subtitled..."
+			ffmpeg -y -i $f -codec:v libx264 -preset slow -b:v 6000k "${FILTER_M_SUBS[@]}" -threads 0 -pass 1 -an -f mp4 /dev/null
+			ffmpeg -y -i $f -codec:v libx264 -preset slow -b:v 6000k "${FILTER_M_SUBS[@]}" -threads 0 -pass 2 -codec:a libfaac -b:a 128k -f mp4 "${ENCODED_DIR}${base_filename}_720_s.mp4"
+		fi
 	fi
 
 	#Cleanup
