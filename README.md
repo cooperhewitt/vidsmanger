@@ -21,4 +21,4 @@ To enable subtitling, run `encode.sh` with the `-s` flag as so: `./bin/encode.sh
 
 If you provide a .srt file for a video, VidSmanger makes a _s.mp4 for every size where the subtitles will be burned-in. If you don't provide an .srt, VidSmanger copies the un-subtitled video to _s.mp4 for consistency. (this might not be the best thing long-term?).
 
-See `bin/add-subtitle-options.py` for customization of subtitle options (font, position, etc). It currently uses the CooperHewitt font so you should [install that](http://uh8yh30l48rpize52xh0q1o6i.wpengine.netdna-cdn.com/wp-content/uploads/fonts/CooperHewitt-OTF-public.zip) if you don't have it already.
+See `bin/add-subtitle-options.py` for customization of subtitle options (font, position, etc).

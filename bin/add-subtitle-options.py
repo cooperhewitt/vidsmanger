@@ -14,8 +14,9 @@ if __name__ == '__main__':
 	
 	for line in old_file:
 		if line == "Style: Default,Arial,16,&Hffffff,&Hffffff,&H0,&H0,0,0,0,1,1,0,2,10,10,10,0,0\r\n":
-			# Set font to Cooper Hewitt
-			new_file.write('Style: Default,CooperHewitt-Medium,48,&Hffffff,&Hffffff,&H0,&H0,0,0,0,1,2,0,2,10,10,10,0,0\r\n')
+			# Change subtitle font here
+			# Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, AlphaLevel, Encoding
+			"Style: Default,Arial,16,&Hffffff,&Hffffff,&H0,&H0,0,0,0,1,1,0,2,10,10,10,0,0\r\n")
 		elif line == '[Script Info]\r\n':
 			# Set resolution
 			new_file.write('[Script Info]\r\n')
