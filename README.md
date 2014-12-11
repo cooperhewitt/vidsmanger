@@ -1,5 +1,7 @@
 #VidSmanger
 
+<img src="vidsmanger.png" style="max-width:640px !important;" />
+
 Generates derivatives for every video in a folder.
 
 1. `./bin/init.sh` (only needs to be run once. sets up folder structure and installs brew and ffmpeg)
